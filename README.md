@@ -63,38 +63,17 @@ Build a cloud-based, serverless pipeline that:
 
 ## Pipeline Architecture
 
-```plaintext
-Kaggle CSV/JSON Files
-        │
-        ▼
-   S3 Raw Zone  (s3://cloudproblem-project-b1/raw-data)
-        │
-        ▼ (S3 event trigger)
-   AWS Lambda   ← Detects new file drop, triggers Glue Workflow
-        │
-        ▼
-   Glue Crawler #1  ← Infers schema from raw data → registers in Data Catalog
-        │
-        ▼
-   Glue ETL Notebook (PySpark)
-   ├── Data cleansing & validation
-   ├── Year-over-year inflation calculations
-   ├── Rolling averages
-   └── CPI + Unemployment join
-        │
-        ▼
-   S3 Processed Zone  (Parquet, partitioned)
-        │
-        ▼
-   Glue Crawler #2  ← Infers transformed schema → updates Data Catalog
-        │
-        ▼
-   Amazon Athena  ← Ad-hoc SQL queries
-        │
-        ▼
-   Tableau Dashboards
-```
+## Pipeline Architecture
 
+![Pipeline Overview](architecture/arch.png)
+
+### Stage-wise Breakdown
+
+![Stage 1 - Data Ingestion](architecture/arch1.png)
+
+![Stage 2 - Transformation](architecture/arch2.png)
+
+![Stage 3 - Querying & Visualization](architecture/arch3.png)
 ---
 
 ## Key Transformations (PySpark)
